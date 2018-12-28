@@ -1,0 +1,1 @@
+This directory contains source code files that are shared across multiple developer utilities.  These files are generally associated with the Mochimo protocol, and are not expected to be updated regularly.
