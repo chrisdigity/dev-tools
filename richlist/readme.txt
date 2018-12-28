@@ -1,0 +1,1 @@
+This directory contains the "richlist" utility, which can be run under windows or linux, and produces a list of the top Mochimo addresses by MCM amount.  See command line usage options for more details.
