@@ -1,15 +1,10 @@
-/* !!! MODIFIED bx.c  Block Explorer !!!
- *
- * NOT FOR DISTRIBUTION
- * NOBODY SHOULD HAVE THIS
- *
-*/
 
 
-#include "config.h"
-#include "mochimo.h"
-#include "add64.c"
-#include "rand.c"
+
+#include "../common/config.h"
+#include "../common/mochimo.h"
+#include "../common/add64.c"
+#include "../common/rand.c"
 
 #ifdef UNIXLIKE
 #include <unistd.h>
