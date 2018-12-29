@@ -1,7 +1,7 @@
 /* sock.h  Includes for Berkeley Sockets
  *
  * Copyright (c) 2018 by Adequate Systems, LLC.  All Rights Reserved.
- * See LICENSE.TXT   **** NO WARRANTY ****
+ * See LICENSE.PDF   **** NO WARRANTY ****
  *
  * The Mochimo Project System Software
  *
