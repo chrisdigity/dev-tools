@@ -3,8 +3,8 @@ rem Change the next line for your compiler:
 set CC=bcc32 -DWIN32 %1 %2 %3 %4 %5 %6 %7 %8
 if not exist txbot.c goto usage
 echo Building txbot...
-%CC% -c sha256.c      >ccerror.log
-%CC% -c wots/wots.c   >>ccerror.log
+%CC% -c ../common/sha256.c      >ccerror.log
+%CC% -c ../common/wots/wots.c   >>ccerror.log
 %CC% txbot.c wots.obj sha256.obj >>ccerror.log
 rem next line for Borland C++ 5.5
 if exist *.tds del *.tds
