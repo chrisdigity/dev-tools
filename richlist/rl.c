@@ -1,5 +1,11 @@
-
-
+/* rl.c  Sends transaction to Mochimo peers.
+ *
+ * Copyright (c) 2018 by Adequate Systems, LLC.  All Rights Reserved.
+ * See LICENSE.PDF   **** NO WARRANTY ****
+ *
+ * Date: 28 December 2018
+ *
+ */
 
 #include "../common/config.h"
 #include "../common/mochimo.h"
