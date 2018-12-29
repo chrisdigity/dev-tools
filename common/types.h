@@ -1,7 +1,7 @@
 /* types.h   Structure definitions: NODE, block, ledger, transactions, etc.
  *
  * Copyright (c) 2018 by Adequate Systems, LLC.  All Rights Reserved.
- * See LICENSE.TXT   **** NO WARRANTY ****
+ * See LICENSE.PDF   **** NO WARRANTY ****
  *
  * Date: 1 January 2018
  *
