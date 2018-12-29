@@ -7,8 +7,8 @@ then
    exit 1
 fi
 echo Building txbot...
-$CC -c sha256.c      2>ccerror.log
-$CC -c wots/wots.c   2>>ccerror.log
+$CC -c ../common/sha256.c      2>ccerror.log
+$CC -c ../common/wots/wots.c   2>>ccerror.log
 $CC -o txbot txbot.c wots.o sha256.o 2>>ccerror.log
 echo
 echo Compiler messages are in ccerror.log
