@@ -1,0 +1,22 @@
+#!/bin/sh
+# Change the next line for your compiler:
+export set CC="cc -DUNIXLIKE -DLONG64  $1 $2 $3 $4 $5 $6 $7 $8"
+if test ! -f txbot.c
+then
+   echo "You need to be in the txbot directory."
+   exit 1
+fi
+echo Building txbot...
+$CC -c sha256.c      2>ccerror.log
+$CC -c wots/wots.c   2>>ccerror.log
+$CC -o txbot txbot.c wots.o sha256.o 2>>ccerror.log
+echo
+echo Compiler messages are in ccerror.log
+echo
+ls -l ccerror.log
+echo
+echo Type 'txbot -h' for help.
+echo
+exit 0
+# To make clean:
+# rm sha256.o wots.o ccerror.log
