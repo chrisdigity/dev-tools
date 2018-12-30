@@ -1,4 +1,4 @@
-/* rl.c  Sends transaction to Mochimo peers.
+/* rl.c  Generates a richlist from a ledger.dat file.
  *
  * Copyright (c) 2018 by Adequate Systems, LLC.  All Rights Reserved.
  * See LICENSE.PDF   **** NO WARRANTY ****
