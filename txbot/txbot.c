@@ -888,6 +888,7 @@ bal:
    if(Trace) printf("Checking balance on q[%d].addr...\n", qptr);
    for(qflag = 0 ;; Nextcore++) {
       if(!Running) goto out;
+      sleep(1);
       if(qptr < 0) qptr = MAXADDRQ-1;
       if(Nextcore >= CORELISTLEN) Nextcore = 0;
       if(Coreplist[Nextcore] == 0) Nextcore = 0;
