@@ -7,7 +7,10 @@ then
 fi
 rm -f ccerror.log
 echo Building Command Line Block Explorer program...
-$CC -o bx bx.c 2>>ccerror.log
+
+$CC -c ../common/sha256.c
+$CC -o bx bx.c sha256.o 
+2>>ccerror.log
 # show the errors:
 if [ -s ccerror.log ]
 then
