@@ -13,6 +13,7 @@
 #include "../common/mochimo.h"
 #include "../common/add64.c"
 #include "../common/rand.c"
+#include "../common/trigg.c"
 
 #ifdef UNIXLIKE
 #include <unistd.h>
