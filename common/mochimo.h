@@ -30,7 +30,7 @@
 #define NSIG 23
 #endif
 
-#include "crypto/sha256.h"
+#include "sha256.h"
 
 #ifdef DEBUG
 #define debug(_x) plog(_x)
@@ -65,7 +65,7 @@
 #define INVALID_SOCKET (-1)
 #endif
 
-#include "crypto/wots/wots.h"
+#include "wots/wots.h"
 #include "types.h"
 
 #endif  /* MOCHIMO_H */
