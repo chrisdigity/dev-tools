@@ -1,0 +1,19 @@
+#!/bin/sh
+export set CC="cc -DUNIXLIKE -DLONG64 $2 $3 $4 $5 $6 $7 $8 $9"
+if test ! -f bx.c
+then
+   echo "Cannot find source code"
+   exit 1
+fi
+rm -f ccerror.log
+echo Building Command Line Block Explorer program...
+$CC -o bx bx.c 2>>ccerror.log
+# show the errors:
+if [ -s ccerror.log ]
+then
+   grep error: ccerror.log
+   echo Error messages are in ccerror.log
+   ls -l ccerror.log
+else
+   echo No errors.
+fi
