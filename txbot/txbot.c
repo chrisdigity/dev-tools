@@ -20,7 +20,7 @@
 #define VERROR      1      /* General error               */
 #define VEBAD       2      /* client was bad              */
 
-#define PVERSION   1
+#define PVERSION   3
 
 #include <stdio.h>
 #include <ctype.h>
@@ -888,7 +888,7 @@ bal:
    if(Trace) printf("Checking balance on q[%d].addr...\n", qptr);
    for(qflag = 0 ;; Nextcore++) {
       if(!Running) goto out;
-      sleep(1);
+      sleep(5);
       if(qptr < 0) qptr = MAXADDRQ-1;
       if(Nextcore >= CORELISTLEN) Nextcore = 0;
       if(Coreplist[Nextcore] == 0) Nextcore = 0;
@@ -917,7 +917,7 @@ bal:
          put64(s, tx.send_total);  /* balance from q[qptr].addr */
          show("found");
          if(Trace) printf("Found q[%d]addr with balance...\n", qptr);
-         sleep(10);
+         sleep(5);
          break;
       }
       if(qflag || cmp64(Cblocknum, lastbnum) != 0) {
