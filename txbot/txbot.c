@@ -12,7 +12,7 @@
  * bailing and reloading peer list.
  */
 #define MAXFAILS 16
-#define MAXADDRQ 12  /* address queue length */
+#define MAXADDRQ 128 /* address queue length */
 #define CORELISTLEN  32
 #define HASHLEN 32   /* for types.h */
 
@@ -144,6 +144,20 @@ void put64(void *buff, void *val)
    ((word32 *) buff)[1] = ((word32 *) val)[1];
 }
 
+/* Add *ap to *bp giving *cp.  Result at *cp. */
+int add64(void *ap, void *bp, void *cp)
+{
+   byte *a, *b, *c;
+   int j, t, carry = 0;
+
+   a = ap; b = bp; c = cp;
+   for(j = 0; j < 8; j++, a++, b++, c++) {
+     t = *a + *b + carry;
+     carry = t >> 8;
+     *c = t;
+   }
+   return carry;
+}
 
 /* Compute *ap minus *bp giving *cp.  Result at *cp. */
 int sub64(void *ap, void *bp, void *cp)
@@ -177,6 +191,69 @@ int cmp64(void *a, void *b)
    return 0;
 }
 
+/** ... from src/wallet.c in https://github.com/mochimodev/mochimo.git
+ * Convert 64-bit little-endian int to a char string in out.
+ * dec is where to put decimal point from left.
+ */
+char *itoa64(void *val64, char *out, int dec, int flags)
+{
+   int count;
+   static char s[24];
+   char *cp, zflag = 1;
+   word32 *tab;
+   byte val[8];
+
+   /* 64-bit little-endian */
+   static word32 table[] = {
+     0x89e80000, 0x8ac72304,      /* 1e19 */
+     0xA7640000, 0x0DE0B6B3,      /* 1e18 */
+     0x5D8A0000, 0x01634578,      /* 1e17 */
+     0x6FC10000, 0x002386F2,      /* 1e16 */
+     0xA4C68000, 0x00038D7E,      /* 1e15 */
+     0x107A4000, 0x00005AF3,      /* 1e14 */
+     0x4E72A000, 0x00000918,      /* 1e13 */
+     0xD4A51000, 0x000000E8,      /* 1e12 */
+     0x4876E800, 0x00000017,      /* 1e11 */
+     0x540BE400, 0x00000002,      /* 1e10 */
+     0x3B9ACA00, 0x00000000,      /* 1e09 */
+     0x05F5E100, 0x00000000,      /* 1e08 */
+     0x00989680, 0x00000000,      /* 1e07 */
+     0x000F4240, 0x00000000,      /* 1e06 */
+     0x000186A0, 0x00000000,      /* 1e05 */
+     0x00002710, 0x00000000,      /* 1e04 */
+     0x000003E8, 0x00000000,      /* 1e03 */
+     0x00000064, 0x00000000,      /* 1e02 */
+     0x0000000A, 0x00000000,      /* 1e01 */
+     0x00000001, 0x00000000,      /*   1  */
+   };
+
+   if(out == NULL) cp = s; else cp = out;
+   out = cp;  /* return value */
+   if(flags == 0) zflag = 0;  /* leading zero suppression flag */
+   dec = 20 - (dec + 1);  /* where to put decimal point */
+   put64(val, val64);
+
+   for(tab = table; ; ) {
+      count = 0;
+      for(;;) {
+         count++;
+         if(sub64(val, tab, val) != 0) {
+            count--;
+            add64(val, tab, val);
+            *cp = count + '0';
+            if(*cp == '0' && zflag) *cp = ' '; else zflag = 0;
+            cp++;
+            if(dec-- == 0) *cp++ = '.';
+            tab += 2;
+            if(tab[0] == 1 && tab[1] == 0) {
+               *cp = val[0] + '0';
+               return out;
+            }
+            break;
+         }
+      }  /* end for */
+   }  /* end for */
+}  /* end itoa64() */
 
 /* Network order word32 as byte a[4] to static alpha string like 127.0.0.1 */
 char *ntoa(byte *a)
@@ -888,7 +965,7 @@ bal:
    if(Trace) printf("Checking balance on q[%d].addr...\n", qptr);
    for(qflag = 0 ;; Nextcore++) {
       if(!Running) goto out;
-      sleep(5);
+      sleep(1);
       if(qptr < 0) qptr = MAXADDRQ-1;
       if(Nextcore >= CORELISTLEN) Nextcore = 0;
       if(Coreplist[Nextcore] == 0) Nextcore = 0;
@@ -916,7 +993,7 @@ bal:
          /* We found an address with a balance, and the block has changed. */
          put64(s, tx.send_total);  /* balance from q[qptr].addr */
          show("found");
-         if(Trace) printf("Found q[%d]addr with balance...\n", qptr);
+         if(Trace) printf("Found q[%d]addr with balance... %s\n", qptr, itoa64(tx.send_total, NULL, 9, 1));
          sleep(5);
          break;
       }
